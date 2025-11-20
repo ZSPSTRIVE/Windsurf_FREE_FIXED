@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WindSurf续杯工具</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <!-- 悬浮提示容器 -->
+    <div id="toast-container"></div>
+    
+    <div class="app-container">
+        <!-- 左侧面板 -->
+        <div class="left-panel">
+            <div class="panel-header">
+                <h1 class="app-title">WindSurf续杯工具</h1>
+                <div class="app-subtitle">专业的账号管理系统</div>
+            </div>
+
+            <!-- 激活码输入区域 -->
+            <div class="activation-section" id="activationSection">
+                <div class="section-title">激活码验证</div>
+                <div class="activation-form">
+                    <input type="text" id="activationInput" placeholder="请输入激活码" class="activation-input">
+                    <button id="activateBtn" class="btn btn-primary btn-block">激活</button>
+                </div>
+                <div id="activationError" class="error-message"></div>
+            </div>
+
+            <!-- 激活信息显示 -->
+            <div class="info-section" id="infoSection" style="display: none;">
+                <div class="section-title">激活信息</div>
+                <div class="info-list">
+                    <div class="info-row">
+                        <span class="info-label">激活码</span>
+                        <span class="info-value" id="activeCode"></span>
+                    </div>
+                    <div class="info-row">
+                        <span class="info-label">剩余提号</span>
+                        <span class="info-value highlight" id="remainingAccounts">0</span>
+                    </div>
+                    <div class="info-row">
+                        <span class="info-label">有效期至</span>
+                        <span class="info-value" id="expireDate">-</span>
+                    </div>
+                    <div class="info-row">
+                        <span class="info-label">剩余天数</span>
+                        <span class="info-value" id="daysRemaining">0天</span>
+                    </div>
+                </div>
+                
+                <!-- 提号按钮放在激活信息下方 -->
+                <button id="pickupBtn" class="btn btn-success btn-block">
+                    <span class="btn-icon">➕</span>
+                    提取新账号
+                </button>
+                
+                <button id="deactivateBtn" class="btn btn-outline btn-sm">注销激活码</button>
+            </div>
+
+            <!-- 机器码显示 -->
+            <div class="machine-code-section">
+                <div class="machine-code" id="machineCode">机器码：加载中...</div>
+            </div>
+        </div>
+
+        <!-- 右侧面板 -->
+        <div class="right-panel">
+            <div class="panel-header">
+                <h2>账号列表</h2>
+                <div class="account-stats" id="accountStats">
+                    共 <span id="totalAccounts">0</span> 个账号
+                </div>
+            </div>
+
+            <!-- 账号列表区域 -->
+            <div class="accounts-container" id="accountsContainer">
+                <!-- 未激活提示 -->
+                <div class="empty-state" id="emptyState">
+                    <div class="empty-icon">🔒</div>
+                    <div class="empty-text">请先输入激活码</div>
+                </div>
+
+                <!-- 账号列表 -->
+                <div class="accounts-list" id="accountsList" style="display: none;">
+                    <!-- 账号项将通过JS动态生成 -->
+                </div>
+            </div>
+
+            <!-- 当前账号详情 -->
+            <div class="current-account-detail" id="currentAccountDetail" style="display: none;">
+                <div class="detail-header">
+                    <h3>当前使用账号</h3>
+                </div>
+                <div class="detail-content">
+                    <div class="detail-row">
+                        <span class="detail-label">邮箱</span>
+                        <span class="detail-value" id="currentEmail">-</span>
+                    </div>
+                    <div class="detail-row">
+                        <span class="detail-label">名称</span>
+                        <span class="detail-value" id="currentName">-</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="toast.js"></script>
+    <script src="renderer.js"></script>
+</body>
+</html>
