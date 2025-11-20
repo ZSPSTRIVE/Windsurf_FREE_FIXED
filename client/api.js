@@ -1,6 +1,6 @@
 const axios = require('axios');
 
-const API_URL = process.env.API_URL || 'http://210.16.178.35:33001/api';
+const API_URL = process.env.API_URL || 'http://localhost:3001/api';
 
 const request = axios.create({
   baseURL: API_URL,
