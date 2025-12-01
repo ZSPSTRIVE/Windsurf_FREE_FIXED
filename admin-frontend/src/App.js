@@ -10,6 +10,7 @@ import TokenImport from './pages/TokenImport';
 import AdminManagement from './pages/AdminManagement';
 import SystemConfig from './pages/SystemConfig';
 import ChangePassword from './pages/ChangePassword';
+import Profile from './pages/Profile';
 import { getToken } from './utils/auth';
 
 function App() {
@@ -46,6 +47,7 @@ function App() {
           <Route path="admin-management" element={<AdminManagement />} />
           <Route path="system-config" element={<SystemConfig />} />
           <Route path="change-password" element={<ChangePassword />} />
+          <Route path="profile" element={<Profile />} />
         </Route>
       </Routes>
     </Router>

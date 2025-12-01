@@ -9,6 +9,7 @@ import {
   SettingOutlined,
   ImportOutlined,
   LogoutOutlined,
+  ThunderboltFilled,
   DownOutlined
 } from '@ant-design/icons';
 import { removeToken, getUser } from '../utils/auth';
@@ -70,7 +71,7 @@ const MainLayout = ({ onLogout }) => {
     } else if (key === 'change-password') {
       navigate('/change-password');
     } else if (key === 'profile') {
-      message.info('个人信息功能开发中');
+      navigate('/profile');
     }
   };
 
@@ -92,59 +93,74 @@ const MainLayout = ({ onLogout }) => {
       {
         key: 'logout',
         label: '退出登录',
-        icon: <LogoutOutlined />
+        icon: <LogoutOutlined />,
+        danger: true
       }
     ],
     onClick: handleUserMenuClick
   };
 
+  const roleLabels = {
+    super_admin: '超级管理员',
+    admin: '管理员'
+  };
+
   return (
-    <Layout style={{ minHeight: '100vh' }}>
+    <Layout className="ultra-layout" style={{ minHeight: '100vh' }}>
       <Sider
         collapsible
         collapsed={collapsed}
         onCollapse={setCollapsed}
         theme="dark"
-        width={220}
+        width={200}
+        collapsedWidth={48}
+        className="ultra-sider"
       >
-        <div style={{ 
-          height: 64, 
-          display: 'flex', 
-          alignItems: 'center', 
-          justifyContent: 'center',
-          color: 'white',
-          fontSize: collapsed ? 20 : 24,
-          fontWeight: 'bold'
-        }}>
-          {collapsed ? 'WS' : 'WindSurf'}
+        {/* Logo区域 */}
+        <div className={`sider-logo ${collapsed ? 'sider-logo-collapsed' : ''}`}>
+          <div className="sider-logo-icon">
+            <ThunderboltFilled />
+          </div>
+          {!collapsed && <span className="sider-logo-text">WindSurf</span>}
         </div>
+        
+        {/* 导航菜单 */}
         <Menu
           theme="dark"
           mode="inline"
           selectedKeys={[location.pathname]}
           items={menuItems}
           onClick={handleMenuClick}
+          className="ultra-menu"
         />
       </Sider>
+      
       <Layout>
-        <Header style={{ 
-          background: '#fff', 
-          padding: '0 24px',
-          display: 'flex',
-          justifyContent: 'space-between',
-          alignItems: 'center',
-          boxShadow: '0 1px 4px rgba(0,21,41,.08)'
-        }}>
-          <h2>WindSurf续杯工具管理后台</h2>
-          <Dropdown menu={userMenu} placement="bottomRight">
-            <Space style={{ cursor: 'pointer' }}>
-              <Avatar icon={<UserOutlined />} />
-              <span>{user?.username || 'Admin'}</span>
-              <DownOutlined />
-            </Space>
+        {/* 顶部栏 */}
+        <Header className="ultra-header">
+          <div className="header-title">
+            续杯工具管理后台
+            <span className="header-title-badge">v1.0</span>
+          </div>
+          
+          <Dropdown menu={userMenu} placement="bottomRight" trigger={['click']}>
+            <div className="header-user">
+              <Avatar 
+                size={36} 
+                icon={<UserOutlined />} 
+                className="header-user-avatar"
+              />
+              <div className="header-user-info">
+                <span className="header-user-name">{user?.username || 'Admin'}</span>
+                <span className="header-user-role">{roleLabels[user?.role] || '管理员'}</span>
+              </div>
+              <DownOutlined style={{ fontSize: 12, color: 'var(--gray-400)' }} />
+            </div>
           </Dropdown>
         </Header>
-        <Content style={{ margin: '24px' }}>
+        
+        {/* 内容区 */}
+        <Content className="ultra-content">
           <Outlet />
         </Content>
       </Layout>

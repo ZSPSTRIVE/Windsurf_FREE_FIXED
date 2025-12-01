@@ -61,8 +61,8 @@ router.post('/login',
                     username: admin.username,
                     role: admin.role
                 },
-                process.env.JWT_SECRET,
-                { expiresIn: process.env.JWT_EXPIRE }
+                process.env.JWT_SECRET || 'windsurf_secret_key_2024',
+                { expiresIn: process.env.JWT_EXPIRE || '24h' }
             );
 
             res.json({
@@ -78,10 +78,11 @@ router.post('/login',
                 }
             });
         } catch (err) {
-            console.error('Login error:', err);
+            console.error('Login error:', err.message);
+            console.error('Full error:', err);
             res.status(500).json({
                 success: false,
-                message: '登录失败'
+                message: '登录失败: ' + err.message
             });
         }
     }

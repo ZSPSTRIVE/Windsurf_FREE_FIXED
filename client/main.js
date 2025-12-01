@@ -8,7 +8,16 @@ const fs = require('fs').promises;
 const { exec } = require('child_process');
 const { promisify } = require('util');
 const execPromise = promisify(exec);
-const Database = require('better-sqlite3');
+const initSqlJs = require('sql.js');
+let SQL = null;
+
+// 初始化 sql.js
+async function getSqlJs() {
+  if (!SQL) {
+    SQL = await initSqlJs();
+  }
+  return SQL;
+}
 
 const store = new Store();
 let mainWindow;
@@ -242,15 +251,19 @@ ipcMain.handle('get-current-account', async (event, activationCode) => {
     const vscdbPath = path.join(windsurfPath, 'User', 'globalStorage', 'state.vscdb');
     
     try {
-      const db = new Database(vscdbPath, { readonly: true });
+      const SQL = await getSqlJs();
+      const fsSync = require('fs');
+      const dbBuffer = fsSync.readFileSync(vscdbPath);
+      const db = new SQL.Database(dbBuffer);
       
       try {
         // 查询 windsurfAuthStatus 字段
-        const row = db.prepare("SELECT value FROM ItemTable WHERE key = 'windsurfAuthStatus'").get();
+        const result = db.exec("SELECT value FROM ItemTable WHERE key = 'windsurfAuthStatus'");
         
-        if (row && row.value) {
+        if (result.length > 0 && result[0].values.length > 0) {
+          const row = result[0].values[0];
           // 解析 JSON 数据
-          const authStatus = JSON.parse(row.value);
+          const authStatus = JSON.parse(row[0]);
           
           if (authStatus.email && authStatus.name) {
             // 返回从数据库读取的账号信息
@@ -262,6 +275,7 @@ ipcMain.handle('get-current-account', async (event, activationCode) => {
             };
             
             console.log('从 vscdb 读取到账号:', accountFromDb.email);
+            db.close();
             return { success: true, data: accountFromDb };
           }
         }
@@ -407,85 +421,86 @@ async function encryptSessions(data, encryptedKey) {
 
 // 更新数据库中的加密sessions和codeium.windsurf
 async function updateWindsurfDatabase(apiKey, name, email = null) {
-  return new Promise((resolve, reject) => {
-    const windsurfDir = path.join(os.homedir(), 'AppData', 'Roaming', 'Windsurf');
-    const dbPath = path.join(windsurfDir, 'User', 'globalStorage', 'state.vscdb');
-    
-    const db = new Database(dbPath);
+  const windsurfDir = path.join(os.homedir(), 'AppData', 'Roaming', 'Windsurf');
+  const dbPath = path.join(windsurfDir, 'User', 'globalStorage', 'state.vscdb');
+  
+  const SQL = await getSqlJs();
+  const fsSync = require('fs');
+  
+  let dbBuffer;
+  try {
+    dbBuffer = fsSync.readFileSync(dbPath);
+  } catch (e) {
+    // 如果文件不存在，创建空数据库
+    dbBuffer = null;
+  }
+  
+  const db = dbBuffer ? new SQL.Database(dbBuffer) : new SQL.Database();
 
-    try {
-      // 1. 生成并加密 sessions 数据
-      const sessionsData = generateAccountData(apiKey, name, email);
+  try {
+    // 1. 生成并加密 sessions 数据
+    const sessionsData = generateAccountData(apiKey, name, email);
 
-      // 获取加密密钥
-      const encryptedKey = getEncryptedKey();
-      if (!encryptedKey) {
-        db.close();
-        reject(new Error('无法获取加密密钥'));
-        return;
-      }
-
-      // 加密数据
-      encryptSessions(sessionsData, encryptedKey).then(encryptedSessions => {
-        try {
-          // 2. 准备 codeium.windsurf 的数据
-          const windsurfData = {
-            "codeium.installationId": generateUUID(),
-            "apiServerUrl": "https://server.self-serve.windsurf.com"
-          };
-
-          // 3. 批量更新数据库
-          // 将 Buffer 转换为 JSON 序列化格式
-          const encryptedSessionsJSON = JSON.stringify(encryptedSessions);
-          
-          const updates = [
-            {
-              key: 'secret://{"extensionId":"codeium.windsurf","key":"windsurf_auth.sessions"}',
-              value: encryptedSessionsJSON
-            },
-            {
-              key: 'codeium.windsurf',
-              value: JSON.stringify(windsurfData)
-            }
-          ];
-
-          // 确保 ItemTable 表存在
-          db.exec(`
-            CREATE TABLE IF NOT EXISTS ItemTable (
-              key TEXT PRIMARY KEY,
-              value TEXT
-            )
-          `);
-
-          // 批量更新
-          const insertOrReplace = db.prepare("INSERT OR REPLACE INTO ItemTable (key, value) VALUES (?, ?)");
-          const transaction = db.transaction(() => {
-            for (const update of updates) {
-              insertOrReplace.run(update.key, update.value);
-            }
-          });
-
-          transaction();
-          db.close();
-
-          resolve({
-            success: true,
-            sessionsData: sessionsData,
-            windsurfData: windsurfData
-          });
-        } catch (dbError) {
-          db.close();
-          reject(dbError);
-        }
-      }).catch(encryptError => {
-        db.close();
-        reject(encryptError);
-      });
-    } catch (error) {
+    // 获取加密密钥
+    const encryptedKey = getEncryptedKey();
+    if (!encryptedKey) {
       db.close();
-      reject(error);
+      throw new Error('无法获取加密密钥');
     }
-  });
+
+    // 加密数据
+    const encryptedSessions = await encryptSessions(sessionsData, encryptedKey);
+    
+    // 2. 准备 codeium.windsurf 的数据
+    const windsurfData = {
+      "codeium.installationId": generateUUID(),
+      "apiServerUrl": "https://server.self-serve.windsurf.com"
+    };
+
+    // 3. 批量更新数据库
+    // 将 Buffer 转换为 JSON 序列化格式
+    const encryptedSessionsJSON = JSON.stringify(encryptedSessions);
+    
+    const updates = [
+      {
+        key: 'secret://{"extensionId":"codeium.windsurf","key":"windsurf_auth.sessions"}',
+        value: encryptedSessionsJSON
+      },
+      {
+        key: 'codeium.windsurf',
+        value: JSON.stringify(windsurfData)
+      }
+    ];
+
+    // 确保 ItemTable 表存在
+    db.run(`
+      CREATE TABLE IF NOT EXISTS ItemTable (
+        key TEXT PRIMARY KEY,
+        value TEXT
+      )
+    `);
+
+    // 批量更新
+    for (const update of updates) {
+      db.run("INSERT OR REPLACE INTO ItemTable (key, value) VALUES (?, ?)", [update.key, update.value]);
+    }
+
+    // 保存数据库到文件
+    const data = db.export();
+    const buffer = Buffer.from(data);
+    fsSync.writeFileSync(dbPath, buffer);
+    
+    db.close();
+
+    return {
+      success: true,
+      sessionsData: sessionsData,
+      windsurfData: windsurfData
+    };
+  } catch (error) {
+    db.close();
+    throw error;
+  }
 }
 
 // 全盘搜索 Windsurf.exe
