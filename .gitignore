@@ -1,7 +1,9 @@
 # Node.js
 node_modules/
 **/node_modules/
+
 client/node_modules.zip
+
 
 # Env
 .env

@@ -1,0 +1,207 @@
+/**
+ * iOS Design Style Components
+ */
+
+/* ========== 通用布局 ========== */
+.ultra-layout {
+  min-height: 100vh;
+  background: var(--bg-base);
+  font-family: var(--font-stack);
+  color: var(--text-primary);
+}
+
+/* ========== 侧边栏 (Sidebar) ========== */
+.ultra-sider {
+  background: rgba(255, 255, 255, 0.72) !important;
+  backdrop-filter: var(--glass-effect) !important;
+  -webkit-backdrop-filter: var(--glass-effect) !important;
+  border-right: 0.5px solid var(--separator-color);
+}
+
+.sider-logo {
+  height: 60px;
+  display: flex;
+  align-items: center;
+  padding-left: 24px;
+}
+
+.sider-logo-text {
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--text-primary);
+  letter-spacing: -0.5px;
+}
+
+/* 菜单项 */
+.ultra-menu {
+  background: transparent !important;
+  border: none !important;
+  padding: 8px 12px;
+}
+
+.ultra-menu .ant-menu-item {
+  height: 40px !important;
+  line-height: 40px !important;
+  margin: 4px 0 !important;
+  border-radius: 8px !important;
+  color: var(--text-primary) !important;
+  font-size: 15px !important;
+  font-weight: 400;
+}
+
+.ultra-menu .ant-menu-item:hover {
+  background-color: rgba(0, 0, 0, 0.04) !important;
+}
+
+.ultra-menu .ant-menu-item-selected {
+  background-color: rgba(0, 122, 255, 0.12) !important; /* iOS Blue Tint */
+  color: var(--ios-blue) !important;
+  font-weight: 600;
+}
+
+.ultra-menu .ant-menu-item .anticon {
+  font-size: 18px !important;
+}
+
+/* ========== 顶部栏 (Navbar) ========== */
+.ultra-header {
+  background: rgba(255, 255, 255, 0.72) !important;
+  backdrop-filter: var(--glass-effect) !important;
+  -webkit-backdrop-filter: var(--glass-effect) !important;
+  border-bottom: 0.5px solid var(--separator-color);
+  height: 60px !important;
+  padding: 0 24px !important;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
+.header-title {
+  font-size: 17px;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+/* ========== 内容区域 ========== */
+.ultra-content {
+  padding: 24px 32px;
+}
+
+.page-header {
+  margin-bottom: 24px;
+}
+
+.page-header h2 {
+  font-size: 34px; /* Large Title */
+  font-weight: 700;
+  color: var(--text-primary);
+  margin: 0;
+  letter-spacing: 0.37px;
+}
+
+/* ========== 统计卡片 (Widget Style) ========== */
+.stat-card {
+  background: var(--bg-card);
+  border-radius: var(--radius-container);
+  padding: 20px;
+  box-shadow: var(--shadow-sm);
+  height: 100%;
+  transition: transform 0.2s ease;
+}
+
+.stat-card:active {
+  transform: scale(0.98);
+}
+
+.stat-card-label {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text-secondary);
+  text-transform: uppercase;
+  margin-bottom: 8px;
+  letter-spacing: -0.08px;
+}
+
+.stat-card-value {
+  font-size: 34px;
+  font-weight: 400; /* Light weight for large numbers */
+  color: var(--text-primary);
+  line-height: 1.1;
+  margin-bottom: 4px;
+  letter-spacing: 0.37px;
+}
+
+.stat-card-desc {
+  font-size: 13px;
+  color: var(--text-secondary);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.trend-indicator {
+  font-weight: 600;
+  font-size: 13px;
+}
+
+.trend-up { color: var(--ios-green); }
+.trend-down { color: var(--ios-red); }
+
+/* ========== 图表与列表容器 ========== */
+.chart-container,
+.ultra-card {
+  background: var(--bg-card);
+  border-radius: var(--radius-container);
+  padding: 20px;
+  box-shadow: var(--shadow-sm);
+}
+
+.chart-title,
+.ultra-card-title {
+  font-size: 20px; /* Title 3 */
+  font-weight: 600;
+  color: var(--text-primary);
+  margin-bottom: 16px;
+  letter-spacing: 0.38px;
+}
+
+/* ========== 登录页 (Login) ========== */
+.login-container {
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: var(--bg-base);
+}
+
+.login-card {
+  background: var(--bg-card);
+  border-radius: 20px;
+  padding: 40px;
+  width: 100%;
+  max-width: 380px;
+  box-shadow: var(--shadow-md);
+}
+
+.login-title {
+  font-size: 28px; /* Title 1 */
+  font-weight: 700;
+  color: var(--text-primary);
+  text-align: center;
+  margin-bottom: 8px;
+}
+
+.login-subtitle {
+  font-size: 15px;
+  color: var(--text-secondary);
+  text-align: center;
+  margin-bottom: 32px;
+}
+
+/* 修复antd图标对齐 */
+.anticon {
+  vertical-align: -0.125em;
+}

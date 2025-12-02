@@ -1,0 +1,44 @@
+/**
+ * Crystal Glass Design System - 主入口样式
+ * 天宫蓝 + 玫瑰橙 + 淡暗金 配色
+ * 水晶玻璃质感 + 高斯模糊动效
+ */
+
+/* 导入设计系统 */
+@import './styles/theme.css';
+@import './styles/components.css';
+@import './styles/antd-override.css';
+
+/* 向后兼容的类名 */
+.dashboard-stat-card {
+  background: var(--crystal-bg);
+  backdrop-filter: var(--crystal-blur);
+  border-radius: var(--radius-lg);
+  padding: 16px;
+  border: 1px solid var(--crystal-border);
+  box-shadow: var(--crystal-shadow);
+  transition: all var(--duration-fast) var(--ease-out);
+}
+
+.dashboard-stat-card:hover {
+  border-color: var(--sky-300);
+  box-shadow: var(--shadow-md), var(--shadow-sky);
+  transform: translateY(-1px);
+}
+
+.table-operations {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.stat-desc {
+  font-size: 11px;
+  color: var(--gray-400);
+  margin-top: 10px;
+  padding-top: 10px;
+  border-top: 1px solid var(--gray-200);
+}

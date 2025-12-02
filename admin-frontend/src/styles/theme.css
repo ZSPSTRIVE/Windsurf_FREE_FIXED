@@ -1,0 +1,118 @@
+/**
+ * iOS Style Design System
+ * 基于 Apple Human Interface Guidelines
+ */
+
+:root {
+  /* ========== iOS 系统色 ========== */
+  /* 蓝色 - 操作/链接 */
+  --ios-blue: #007AFF;
+  --ios-blue-light: rgba(0, 122, 255, 0.1);
+  
+  /* 绿色 - 成功 */
+  --ios-green: #34C759;
+  --ios-green-light: rgba(52, 199, 89, 0.1);
+  
+  /* 黄色 - 警告 */
+  --ios-yellow: #FFCC00;
+  --ios-yellow-light: rgba(255, 204, 0, 0.1);
+  
+  /* 红色 - 错误/删除 */
+  --ios-red: #FF3B30;
+  --ios-red-light: rgba(255, 59, 48, 0.1);
+  
+  /* 灰色 - 中性 */
+  --ios-gray: #8E8E93;
+  --ios-gray-light: #E5E5EA;
+  --ios-gray-ultralight: #F2F2F7;
+
+  /* ========== 映射变量 ========== */
+  --primary-color: var(--ios-blue);
+  --success-color: var(--ios-green);
+  --warning-color: var(--ios-yellow);
+  --error-color: var(--ios-red);
+
+  /* ========== 文本系统 (SF Pro) ========== */
+  /* Label Color */
+  --text-primary: #1C1C1E;
+  --text-secondary: #6C6C70;
+  --text-tertiary: #AEAEB2;
+  --text-quaternary: #D1D1D6;
+
+  /* ========== 背景系统 ========== */
+  /* System Backgrounds */
+  --bg-base: #F5F6F7;           /* SystemGroupedBackground */
+  --bg-card: #FFFFFF;           /* SecondarySystemGroupedBackground */
+  --bg-surface: rgba(255, 255, 255, 0.8); /* Glass Effect */
+  
+  /* ========== 边框与分割线 ========== */
+  --border-color: rgba(0, 0, 0, 0.08);
+  --separator-color: rgba(60, 60, 67, 0.18); /* Opaque Separator */
+
+  /* ========== 圆角系统 ========== */
+  --radius-container: 16px;     /* 卡片圆角 */
+  --radius-button: 10px;        /* 按钮圆角 */
+  --radius-input: 10px;         /* 输入框圆角 */
+  --radius-sm: 6px;
+
+  /* ========== 阴影系统 (iOS 风格) ========== */
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.04);
+  --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.06);
+  --shadow-lg: 0 12px 32px rgba(0, 0, 0, 0.08);
+  
+  /* ========== 毛玻璃效果 ========== */
+  --glass-effect: blur(20px) saturate(180%);
+  
+  /* ========== 字体 ========== */
+  --font-stack: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Helvetica Neue", sans-serif;
+}
+
+/* ========== 全局重置 ========== */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  font-size: 14px;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+}
+
+body {
+  font-family: var(--font-family);
+  background: var(--bg-base);
+  color: var(--gray-800);
+  line-height: 1.6;
+}
+
+#root {
+  min-height: 100vh;
+}
+
+/* ========== 滚动条美化 ========== */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--gray-300);
+  border-radius: var(--radius-full);
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--gray-400);
+}
+
+/* ========== 选中文字样式 ========== */
+::selection {
+  background: rgba(99, 102, 241, 0.2);
+  color: var(--primary-700);
+}

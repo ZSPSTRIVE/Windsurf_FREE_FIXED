@@ -1,0 +1,51 @@
+{
+  "name": "windsurf-client",
+  "version": "1.0.0",
+  "description": "WindSurf续杯工具客户端",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron .",
+    "dev": "electron . --dev",
+    "build": "electron-builder --win --x64",
+    "dist": "electron-builder --dir",
+    "dist:win": "electron-builder --win portable"
+  },
+  "author": "WindSurf Team",
+  "build": {
+    "appId": "com.windsurf.client",
+    "productName": "WindSurf续杯工具",
+    "directories": {
+      "output": "build-output"
+    },
+    "win": {
+      "target": [
+        {
+          "target": "nsis",
+          "arch": [
+            "x64"
+          ]
+        }
+      ],
+      "requestedExecutionLevel": "asInvoker",
+      "certificateFile": null,
+      "certificatePassword": null,
+      "signAndEditExecutable": false
+    },
+    "nsis": {
+      "oneClick": false,
+      "allowToChangeInstallationDirectory": true,
+      "perMachine": false,
+      "allowElevation": true
+    },
+    "publish": null
+  },
+  "dependencies": {
+    "axios": "^1.4.0",
+    "sql.js": "^1.8.0",
+    "electron-store": "^8.1.0"
+  },
+  "devDependencies": {
+    "electron": "^25.3.0",
+    "electron-builder": "^24.6.3"
+  }
+}

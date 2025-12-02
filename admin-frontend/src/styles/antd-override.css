@@ -1,0 +1,152 @@
+/**
+ * iOS Design Override
+ * 覆盖 Ant Design 默认样式以匹配 iOS 规范
+ */
+
+
+/* ========== 弹窗 (Modal) ========== */
+.ant-modal-content {
+  border-radius: 20px !important;
+  padding: 24px !important;
+  box-shadow: var(--shadow-lg) !important;
+}
+
+.ant-modal-header {
+  margin-bottom: 16px !important;
+  padding: 0 !important;
+  border-bottom: none !important;
+}
+
+.ant-modal-title {
+  font-weight: 700 !important;
+  font-size: 20px !important;
+  color: var(--text-primary) !important;
+}
+
+.ant-modal-footer {
+  border-top: none !important;
+  padding-top: 24px !important;
+}
+
+/* ========== 按钮 (Buttons) ========== */
+.ant-btn {
+  border-radius: var(--radius-button) !important;
+  height: 36px !important;
+  padding: 0 16px !important;
+  font-weight: 600 !important;
+  border: none !important;
+  box-shadow: none !important;
+}
+
+/* Primary Button - iOS Filled Button */
+.ant-btn-primary {
+  background-color: var(--ios-blue) !important;
+}
+
+.ant-btn-primary:hover {
+  background-color: #0071E3 !important; /* Slightly Darker */
+}
+
+.ant-btn-primary:active {
+  opacity: 0.7;
+}
+
+/* Default Button - iOS Gray Button */
+.ant-btn-default {
+  background-color: var(--ios-gray-light) !important;
+  color: var(--text-primary) !important;
+}
+
+.ant-btn-default:hover {
+  background-color: #D1D1D6 !important;
+}
+
+/* Danger Button */
+.ant-btn-dangerous {
+  background-color: rgba(255, 59, 48, 0.1) !important;
+  color: var(--ios-red) !important;
+}
+
+/* Link Button */
+.ant-btn-link {
+  color: var(--ios-blue) !important;
+  background: transparent !important;
+}
+
+/* ========== 输入框 (Inputs) ========== */
+.ant-input,
+.ant-input-affix-wrapper,
+.ant-select-selector {
+  border-radius: var(--radius-input) !important;
+  background-color: var(--ios-gray-light) !important; /* iOS Light Gray Background */
+  border: none !important;
+  box-shadow: none !important;
+}
+
+.ant-input:focus,
+.ant-input-focused,
+.ant-input-affix-wrapper:focus,
+.ant-input-affix-wrapper-focused,
+.ant-select-focused .ant-select-selector {
+  background-color: #FFFFFF !important;
+  box-shadow: 0 0 0 2px var(--ios-blue-light) !important;
+}
+
+/* ========== 表格 (Tables) ========== */
+.ant-table {
+  background: transparent !important;
+}
+
+.ant-table-container {
+  border-radius: var(--radius-container) !important;
+  overflow: hidden;
+  border: 0.5px solid var(--separator-color);
+}
+
+.ant-table-thead > tr > th {
+  background: var(--bg-base) !important;
+  color: var(--text-secondary) !important;
+  font-weight: 600 !important;
+  font-size: 13px !important;
+  text-transform: uppercase;
+  border-bottom: 0.5px solid var(--separator-color) !important;
+}
+
+.ant-table-tbody > tr > td {
+  background: var(--bg-card) !important;
+  border-bottom: 0.5px solid var(--border-color) !important;
+  font-size: 15px !important;
+}
+
+.ant-table-tbody > tr:last-child > td {
+  border-bottom: none !important;
+}
+
+/* ========== 标签 (Tags) ========== */
+.ant-tag {
+  border: none !important;
+  border-radius: 6px !important;
+  font-weight: 600 !important;
+  padding: 2px 8px !important;
+}
+
+/* iOS Style Tags */
+.ant-tag-success { color: var(--ios-green) !important; background: var(--ios-green-light) !important; }
+.ant-tag-processing { color: var(--ios-blue) !important; background: var(--ios-blue-light) !important; }
+.ant-tag-error { color: var(--ios-red) !important; background: var(--ios-red-light) !important; }
+.ant-tag-warning { color: var(--ios-yellow) !important; background: var(--ios-yellow-light) !important; }
+
+/* ========== 分页 (Pagination) ========== */
+.ant-pagination-item {
+  border-radius: 8px !important;
+  border: none !important;
+  background: transparent !important;
+}
+
+.ant-pagination-item-active {
+  background: var(--ios-gray-light) !important;
+}
+
+.ant-pagination-item-active a {
+  color: var(--text-primary) !important;
+}
