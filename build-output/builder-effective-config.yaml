@@ -1,0 +1,22 @@
+directories:
+  output: build-output
+  buildResources: build
+appId: com.windsurf.client
+productName: WindSurf续杯工具
+win:
+  target:
+    - target: nsis
+      arch:
+        - x64
+  requestedExecutionLevel: asInvoker
+  certificateFile: null
+  certificatePassword: <stripped sensitive data>
+  signAndEditExecutable: false
+nsis:
+  oneClick: false
+  allowToChangeInstallationDirectory: true
+  perMachine: false
+  allowElevation: true
+publish: null
+files: []
+electronVersion: 25.9.8

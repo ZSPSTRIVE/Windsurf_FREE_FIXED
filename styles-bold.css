@@ -1,0 +1,667 @@
+/**
+ * WindSurf 客户端 - 纽博格林/新丑主义风格 (Neo-Brutalism / Pop)
+ * 风格: 拒绝平庸、拒绝柔和、硬朗、高饱和、强对比
+ * 核心: 粗边框、硬阴影、大色块
+ */
+
+:root {
+    /* 核心色板 */
+    --bg-color: #FFFBEB; /* 米黄底色，温暖舒适 */
+    --card-bg: #FFFFFF;
+    
+    /* 强力主色 */
+    --pop-yellow: #FFD600; /* 柠檬黄 */
+    --pop-blue: #2B59C3;   /* 克莱因蓝 */
+    --pop-red: #FF2E63;    /* 糖果红 */
+    --pop-green: #00C897;  /* 薄荷绿 */
+    --pop-orange: #FF6B35; /* 活力橙 */
+    
+    /* 边框与阴影 */
+    --border-color: #000000;
+    --border-width: 3px;
+    --shadow-offset: 6px;
+    
+    /* 文字 */
+    --text-main: #000000;
+    --text-sub: #444444;
+    
+    /* 动效 */
+    --snap: cubic-bezier(0.34, 1.56, 0.64, 1); /* 弹跳效果 */
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: "Chivo", "Archivo Black", "Microsoft YaHei", sans-serif;
+    background-color: var(--bg-color);
+    background-image: radial-gradient(#000 1px, transparent 1px);
+    background-size: 24px 24px; /* 波点背景 */
+    color: var(--text-main);
+    height: 100vh;
+    overflow: hidden;
+    position: relative;
+}
+
+/* 动态背景层 - 几何漂浮物 */
+#dynamic-bg {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    z-index: 0;
+    pointer-events: none;
+    opacity: 0.4;
+}
+
+.app-container {
+    display: flex;
+    height: 100vh;
+    position: relative;
+    z-index: 1;
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 30px;
+    gap: 30px;
+}
+
+/* ==================== 通用容器样式 ==================== */
+.box-style {
+    background: var(--card-bg);
+    border: var(--border-width) solid var(--border-color);
+    box-shadow: var(--shadow-offset) var(--shadow-offset) 0 var(--border-color);
+    border-radius: 12px; /* 轻微圆角，保持硬朗 */
+    transition: all 0.2s ease;
+}
+
+.box-style:hover {
+    transform: translate(-2px, -2px);
+    box-shadow: calc(var(--shadow-offset) + 2px) calc(var(--shadow-offset) + 2px) 0 var(--border-color);
+}
+
+/* ==================== 左侧面板 ==================== */
+.left-panel {
+    width: 420px;
+    display: flex;
+    flex-direction: column;
+    background: var(--pop-blue); /* 蓝色底板 */
+    border: var(--border-width) solid var(--border-color);
+    box-shadow: var(--shadow-offset) var(--shadow-offset) 0 var(--border-color);
+    border-radius: 16px;
+    overflow: hidden;
+}
+
+.panel-header {
+    padding: 40px 30px 20px;
+    background: var(--pop-yellow); /* 黄色头部 */
+    border-bottom: var(--border-width) solid var(--border-color);
+    position: relative;
+}
+
+.app-title {
+    font-size: 36px;
+    font-weight: 900;
+    color: var(--text-main);
+    line-height: 1.1;
+    text-transform: uppercase;
+    font-style: italic;
+    text-shadow: 2px 2px 0 #FFF;
+}
+
+.app-subtitle {
+    font-size: 14px;
+    font-weight: 700;
+    background: var(--text-main);
+    color: #FFF;
+    display: inline-block;
+    padding: 4px 8px;
+    margin-top: 8px;
+    transform: rotate(-2deg);
+}
+
+/* ==================== 激活码区域 ==================== */
+.activation-section {
+    padding: 30px;
+    background: #FFF;
+    flex: 1; /* 填充剩余空间 */
+}
+
+.section-title {
+    font-size: 16px;
+    font-weight: 800;
+    margin-bottom: 16px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.section-title::before {
+    content: '';
+    display: block;
+    width: 12px;
+    height: 12px;
+    background: var(--pop-red);
+    border: 2px solid #000;
+}
+
+.activation-form {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.activation-input {
+    width: 100%;
+    padding: 16px;
+    border: var(--border-width) solid var(--border-color);
+    background: #F0F0F0;
+    font-size: 18px;
+    font-weight: 700;
+    font-family: monospace;
+    color: var(--text-main);
+    border-radius: 8px;
+    transition: all 0.2s;
+}
+
+.activation-input:focus {
+    outline: none;
+    background: #FFF;
+    box-shadow: 4px 4px 0 var(--pop-red);
+    transform: translate(-2px, -2px);
+}
+
+.activation-input::placeholder {
+    color: #888;
+    font-weight: 500;
+}
+
+/* ==================== 信息卡片 ==================== */
+.info-section {
+    padding: 30px;
+    background: #FFF;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.info-list {
+    background: var(--bg-color);
+    border: var(--border-width) solid var(--border-color);
+    padding: 20px;
+    margin-bottom: 24px;
+    border-radius: 8px;
+    position: relative;
+}
+
+.info-list::after {
+    content: 'INFO';
+    position: absolute;
+    top: -12px;
+    right: 12px;
+    background: var(--pop-green);
+    border: 2px solid #000;
+    padding: 2px 8px;
+    font-size: 12px;
+    font-weight: 800;
+}
+
+.info-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 8px 0;
+    border-bottom: 2px dashed #DDD;
+}
+
+.info-row:last-child {
+    border-bottom: none;
+}
+
+.info-label {
+    font-weight: 700;
+    color: var(--text-sub);
+}
+
+.info-value {
+    font-weight: 800;
+    font-family: monospace;
+    font-size: 16px;
+}
+
+.info-value.highlight {
+    background: var(--pop-yellow);
+    padding: 2px 6px;
+    border: 2px solid #000;
+    box-shadow: 2px 2px 0 #000;
+}
+
+/* ==================== 机器码 ==================== */
+.machine-code-section {
+    padding: 20px;
+    background: var(--text-main);
+    color: #FFF;
+    text-align: center;
+    border-top: var(--border-width) solid var(--border-color);
+}
+
+.machine-code {
+    font-family: monospace;
+    font-size: 12px;
+    opacity: 0.8;
+}
+
+/* ==================== 右侧面板 ==================== */
+.right-panel {
+    flex: 1;
+    background: var(--card-bg);
+    border: var(--border-width) solid var(--border-color);
+    box-shadow: var(--shadow-offset) var(--shadow-offset) 0 var(--border-color);
+    border-radius: 16px;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
+
+.right-panel .panel-header {
+    padding: 30px;
+    border-bottom: var(--border-width) solid var(--border-color);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: #FFF;
+}
+
+.right-panel h2 {
+    font-size: 24px;
+    font-weight: 900;
+    text-transform: uppercase;
+}
+
+.account-stats {
+    background: var(--pop-red);
+    color: #FFF;
+    padding: 6px 12px;
+    border: 2px solid #000;
+    font-weight: 800;
+    box-shadow: 3px 3px 0 #000;
+    transform: rotate(2deg);
+}
+
+/* ==================== 账号列表 ==================== */
+.accounts-container {
+    flex: 1;
+    overflow-y: auto;
+    padding: 30px;
+    background-image: radial-gradient(#DDD 1px, transparent 1px);
+    background-size: 16px 16px;
+}
+
+.accounts-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 20px;
+}
+
+.account-item {
+    background: #FFF;
+    border: var(--border-width) solid var(--border-color);
+    padding: 20px;
+    border-radius: 12px;
+    position: relative;
+    transition: all 0.2s var(--snap);
+}
+
+.account-item:hover {
+    transform: translate(-4px, -4px);
+    box-shadow: 6px 6px 0 var(--text-main);
+    background: var(--pop-yellow);
+}
+
+.account-item.active {
+    background: var(--pop-green);
+    box-shadow: 6px 6px 0 var(--text-main);
+}
+
+.account-item.active .account-email,
+.account-item.active .account-name {
+    color: #000;
+}
+
+.account-info {
+    margin-bottom: 16px;
+}
+
+.account-email {
+    font-weight: 800;
+    font-size: 16px;
+    margin-bottom: 4px;
+}
+
+.account-name {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--text-sub);
+}
+
+.account-actions {
+    text-align: right;
+}
+
+/* ==================== 按钮 ==================== */
+.btn {
+    border: var(--border-width) solid var(--border-color);
+    border-radius: 8px;
+    padding: 12px 24px;
+    font-weight: 900;
+    font-size: 16px;
+    text-transform: uppercase;
+    cursor: pointer;
+    position: relative;
+    transition: all 0.15s;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+}
+
+.btn:active {
+    transform: translate(2px, 2px);
+    box-shadow: 0 0 0 var(--border-color) !important;
+}
+
+/* 主按钮 - 激活 */
+.btn-primary {
+    background: var(--text-main);
+    color: var(--pop-yellow);
+    box-shadow: 4px 4px 0 rgba(0,0,0,0.2);
+}
+
+.btn-primary:hover {
+    background: #333;
+    box-shadow: 6px 6px 0 rgba(0,0,0,0.2);
+    transform: translate(-2px, -2px);
+}
+
+/* 成功按钮 - 提号 */
+.btn-success {
+    background: var(--pop-green);
+    color: #000;
+    width: 100%;
+    font-size: 18px;
+    padding: 16px;
+    box-shadow: 5px 5px 0 #000;
+}
+
+.btn-success:hover {
+    background: #00E6AD;
+    box-shadow: 7px 7px 0 #000;
+    transform: translate(-2px, -2px);
+}
+
+/* 切换按钮 */
+.btn-switch {
+    background: #FFF;
+    color: #000;
+    box-shadow: 3px 3px 0 #000;
+    font-size: 13px;
+    padding: 8px 16px;
+}
+
+.btn-switch:hover {
+    background: var(--pop-blue);
+    color: #FFF;
+    box-shadow: 5px 5px 0 #000;
+    transform: translate(-2px, -2px);
+}
+
+/* 轮廓按钮 */
+.btn-outline {
+    background: transparent;
+    color: #666;
+    width: 100%;
+    margin-top: 16px;
+    border: 2px dashed #AAA;
+    box-shadow: none;
+}
+
+.btn-outline:hover {
+    border: 2px solid var(--pop-red);
+    color: var(--pop-red);
+    background: #FFF;
+    box-shadow: 4px 4px 0 var(--pop-red);
+    transform: translate(-2px, -2px);
+}
+
+.btn-block {
+    width: 100%;
+}
+
+/* ==================== 当前账号底部详情 ==================== */
+.current-account-detail {
+    margin: 0 30px 30px;
+    padding: 20px;
+    background: var(--pop-orange);
+    border: var(--border-width) solid var(--border-color);
+    box-shadow: 4px 4px 0 #000;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.current-account-detail .detail-header h3 {
+    color: #FFF;
+    text-shadow: 1px 1px 0 #000;
+}
+
+.current-account-detail .detail-value {
+    color: #FFF;
+    font-weight: 900;
+    text-shadow: 1px 1px 0 #000;
+    font-size: 18px;
+}
+
+/* ==================== 空状态 ==================== */
+.empty-state {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    min-height: 300px;
+    color: var(--text-sub);
+}
+
+.empty-icon {
+    font-size: 80px;
+    margin-bottom: 20px;
+    filter: drop-shadow(4px 4px 0 #000);
+    transition: transform 0.3s;
+}
+
+.empty-state:hover .empty-icon {
+    transform: rotate(10deg) scale(1.1);
+}
+
+.empty-text {
+    font-size: 20px;
+    font-weight: 800;
+    background: #FFF;
+    padding: 8px 16px;
+    border: 2px solid #000;
+    box-shadow: 4px 4px 0 #000;
+}
+
+/* ==================== Toast ==================== */
+#toast-container {
+    position: fixed;
+    top: 30px;
+    right: 30px;
+    z-index: 10000;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    pointer-events: none;
+}
+
+.toast {
+    min-width: 320px;
+    background: #FFF;
+    border: 3px solid #000;
+    box-shadow: 8px 8px 0 #000;
+    padding: 20px;
+    display: flex;
+    align-items: flex-start;
+    gap: 16px;
+    pointer-events: auto;
+    animation: slideIn 0.3s var(--snap);
+    position: relative;
+}
+
+.toast::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: linear-gradient(45deg, rgba(0,0,0,0.05) 25%, transparent 25%, transparent 50%, rgba(0,0,0,0.05) 50%, rgba(0,0,0,0.05) 75%, transparent 75%, transparent);
+    background-size: 20px 20px;
+    pointer-events: none;
+    opacity: 0.5;
+}
+
+.toast:hover {
+    transform: translate(-2px, -2px);
+    box-shadow: 10px 10px 0 #000;
+}
+
+.toast-icon {
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 2px solid #000;
+    font-weight: 900;
+    font-size: 20px;
+    box-shadow: 2px 2px 0 #000;
+    background: #FFF;
+    flex-shrink: 0;
+}
+
+.toast-content {
+    flex: 1;
+    z-index: 1;
+}
+
+.toast-title {
+    font-weight: 900;
+    font-size: 16px;
+    text-transform: uppercase;
+    margin-bottom: 4px;
+}
+
+.toast-message {
+    font-weight: 600;
+    font-size: 14px;
+}
+
+/* Toast Variants */
+.toast.success { background: var(--pop-green); }
+.toast.error { background: var(--pop-red); color: #FFF; }
+.toast.warning { background: var(--pop-yellow); }
+.toast.info { background: var(--pop-blue); color: #FFF; }
+
+.toast.error .toast-icon, .toast.info .toast-icon {
+    background: #FFF;
+    color: #000;
+}
+
+/* ==================== 动画 ==================== */
+@keyframes slideIn {
+    from { transform: translateX(120%) skewX(-10deg); }
+    to { transform: translateX(0) skewX(0); }
+}
+
+/* ==================== 分页控件（固定在右下角） ==================== */
+.pagination-fixed {
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
+    z-index: 1000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    padding: 16px 20px;
+    background: var(--pop-yellow);
+    border: var(--border-width) solid var(--border-color);
+    box-shadow: var(--shadow-offset) var(--shadow-offset) 0 var(--border-color);
+    animation: slideUp 0.3s var(--snap);
+}
+
+@keyframes slideUp {
+    from { transform: translateY(100px); opacity: 0; }
+    to { transform: translateY(0); opacity: 1; }
+}
+
+.btn-page {
+    background: #FFF;
+    color: #000;
+    padding: 12px 24px;
+    font-size: 14px;
+    font-weight: 900;
+    text-transform: uppercase;
+    border: var(--border-width) solid var(--border-color);
+    box-shadow: 4px 4px 0 var(--border-color);
+    cursor: pointer;
+    transition: all 0.15s;
+}
+
+.btn-page:hover:not(:disabled) {
+    background: var(--pop-blue);
+    color: #FFF;
+    transform: translate(-2px, -2px);
+    box-shadow: 6px 6px 0 var(--border-color);
+}
+
+.btn-page:active:not(:disabled) {
+    transform: translate(2px, 2px);
+    box-shadow: 2px 2px 0 var(--border-color);
+}
+
+.btn-page:disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+    box-shadow: 2px 2px 0 #888;
+}
+
+.page-info {
+    font-size: 18px;
+    font-weight: 900;
+    background: #000;
+    color: var(--pop-yellow);
+    padding: 12px 24px;
+    border: 2px solid #000;
+    min-width: 100px;
+    text-align: center;
+}
+
+/* 滚动条 */
+::-webkit-scrollbar {
+    width: 12px;
+    background: #FFF;
+    border-left: 2px solid #000;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #000;
+    border: 2px solid #FFF;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: var(--pop-red);
+}

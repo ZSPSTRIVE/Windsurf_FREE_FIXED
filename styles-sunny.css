@@ -1,0 +1,527 @@
+/**
+ * WindSurf 客户端 - 阳光活力/高级感风格
+ * 配色: 阳光黄 + 深海蓝 + 活力橙
+ * 设计: 扁平化、高对比、愉悦感、大圆角
+ */
+
+:root {
+    /* 核心配色 - 拒绝渐变，使用高饱和纯色 */
+    --bg-color: #FFFDF5; /* 暖白背景 */
+    --panel-bg: #FFFFFF;
+    
+    /* 阳光主色 */
+    --sun-yellow: #FFD60A;
+    --sun-yellow-hover: #FFC300;
+    
+    /* 高级深色 */
+    --deep-blue: #003566;
+    --ocean-blue: #0077B6;
+    
+    /* 活力点缀 */
+    --energy-orange: #FF6B35;
+    --fresh-green: #06D6A0;
+    --alert-red: #EF476F;
+    
+    /* 文字颜色 */
+    --text-main: #001d3d;
+    --text-sub: #5C677D;
+    --text-light: #979DAC;
+    
+    /* 阴影 - 使用有色阴影增加通透感 */
+    --shadow-sm: 0 4px 12px rgba(255, 214, 10, 0.15);
+    --shadow-md: 0 8px 24px rgba(0, 53, 102, 0.08);
+    --shadow-lg: 0 16px 48px rgba(0, 53, 102, 0.12);
+    
+    /* 交互动效 */
+    --bounce: cubic-bezier(0.68, -0.55, 0.265, 1.55);
+    --smooth: cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: "PingFang SC", "Microsoft YaHei", system-ui, -apple-system, sans-serif;
+    background: var(--bg-color);
+    color: var(--text-main);
+    height: 100vh;
+    overflow: hidden;
+    position: relative;
+}
+
+/* 动态背景容器 */
+#dynamic-bg {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 0;
+    pointer-events: none;
+    opacity: 0.6;
+}
+
+.app-container {
+    display: flex;
+    height: 100vh;
+    position: relative;
+    z-index: 1;
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 20px;
+    gap: 20px;
+}
+
+/* ==================== 左侧面板 ==================== */
+.left-panel {
+    width: 400px;
+    background: var(--panel-bg);
+    border-radius: 32px;
+    display: flex;
+    flex-direction: column;
+    box-shadow: var(--shadow-lg);
+    position: relative;
+    overflow: hidden;
+    border: 2px solid rgba(255, 255, 255, 0.5);
+}
+
+/* 装饰性顶部条 */
+.left-panel::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 12px;
+    background: var(--sun-yellow);
+}
+
+.panel-header {
+    padding: 48px 32px 32px;
+}
+
+.app-title {
+    font-size: 32px;
+    font-weight: 800;
+    color: var(--deep-blue);
+    line-height: 1.2;
+    margin-bottom: 8px;
+    letter-spacing: -0.5px;
+}
+
+.app-subtitle {
+    font-size: 15px;
+    color: var(--text-sub);
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.app-subtitle::before {
+    content: '';
+    display: block;
+    width: 24px;
+    height: 4px;
+    background: var(--sun-yellow);
+    border-radius: 2px;
+}
+
+/* ==================== 激活码区域 ==================== */
+.activation-section {
+    padding: 0 32px 32px;
+}
+
+.section-title {
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--ocean-blue);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 16px;
+}
+
+.activation-form {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.activation-input {
+    width: 100%;
+    padding: 18px 24px;
+    border: 2px solid #EDF2F7;
+    border-radius: 20px;
+    font-size: 16px;
+    color: var(--deep-blue);
+    background: #F8FAFC;
+    transition: all 0.3s var(--smooth);
+    font-weight: 600;
+    text-align: center;
+    letter-spacing: 1px;
+}
+
+.activation-input::placeholder {
+    color: var(--text-light);
+    font-weight: 400;
+    letter-spacing: 0;
+}
+
+.activation-input:focus {
+    outline: none;
+    border-color: var(--sun-yellow);
+    background: #FFF;
+    box-shadow: 0 0 0 6px rgba(255, 214, 10, 0.2);
+    transform: translateY(-2px);
+}
+
+/* ==================== 信息卡片 ==================== */
+.info-section {
+    padding: 0 32px;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.info-list {
+    background: #F8FAFC;
+    border-radius: 24px;
+    padding: 24px;
+    margin-bottom: 24px;
+    border: 2px solid #F1F5F9;
+}
+
+.info-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 0;
+}
+
+.info-label {
+    font-size: 14px;
+    color: var(--text-sub);
+    font-weight: 500;
+}
+
+.info-value {
+    font-size: 15px;
+    font-weight: 700;
+    color: var(--deep-blue);
+    font-family: "Menlo", monospace;
+}
+
+.info-value.highlight {
+    color: var(--energy-orange);
+    font-size: 20px;
+    background: rgba(255, 107, 53, 0.1);
+    padding: 4px 12px;
+    border-radius: 12px;
+}
+
+/* ==================== 机器码 ==================== */
+.machine-code-section {
+    padding: 24px 32px;
+    text-align: center;
+}
+
+.machine-code {
+    display: inline-block;
+    font-size: 12px;
+    color: var(--text-light);
+    background: #F8FAFC;
+    padding: 8px 16px;
+    border-radius: 100px;
+    font-family: "Menlo", monospace;
+    border: 1px solid #F1F5F9;
+}
+
+/* ==================== 右侧面板 ==================== */
+.right-panel {
+    flex: 1;
+    background: var(--panel-bg);
+    border-radius: 32px;
+    display: flex;
+    flex-direction: column;
+    box-shadow: var(--shadow-md);
+    overflow: hidden;
+    border: 2px solid rgba(255, 255, 255, 0.5);
+}
+
+.right-panel .panel-header {
+    padding: 32px 40px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 2px solid #F8FAFC;
+}
+
+.right-panel h2 {
+    font-size: 24px;
+    font-weight: 800;
+    color: var(--deep-blue);
+}
+
+.account-stats {
+    background: var(--sun-yellow);
+    color: var(--deep-blue);
+    padding: 8px 16px;
+    border-radius: 100px;
+    font-size: 14px;
+    font-weight: 700;
+    box-shadow: 0 4px 12px rgba(255, 214, 10, 0.4);
+}
+
+/* ==================== 账号列表 ==================== */
+.accounts-container {
+    flex: 1;
+    overflow-y: auto;
+    padding: 32px 40px;
+}
+
+.accounts-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 20px;
+}
+
+.account-item {
+    background: #FFF;
+    border: 2px solid #F1F5F9;
+    border-radius: 24px;
+    padding: 24px;
+    transition: all 0.4s var(--bounce);
+    position: relative;
+    cursor: default;
+}
+
+.account-item:hover {
+    border-color: var(--sun-yellow);
+    transform: translateY(-6px) scale(1.02);
+    box-shadow: 0 12px 32px rgba(255, 214, 10, 0.15);
+}
+
+.account-item.active {
+    background: #FFF;
+    border-color: var(--fresh-green);
+    box-shadow: 0 12px 32px rgba(6, 214, 160, 0.15);
+}
+
+.account-item.active::after {
+    content: '当前使用';
+    position: absolute;
+    top: -10px;
+    right: 20px;
+    background: var(--fresh-green);
+    color: white;
+    font-size: 12px;
+    padding: 4px 12px;
+    border-radius: 100px;
+    font-weight: 700;
+    box-shadow: 0 4px 12px rgba(6, 214, 160, 0.3);
+}
+
+.account-email {
+    font-size: 16px;
+    font-weight: 700;
+    color: var(--deep-blue);
+    margin-bottom: 6px;
+}
+
+.account-name {
+    font-size: 14px;
+    color: var(--text-sub);
+}
+
+.account-actions {
+    margin-top: 20px;
+    display: flex;
+    justify-content: flex-end;
+}
+
+/* ==================== 按钮设计 ==================== */
+.btn {
+    border: none;
+    padding: 16px 32px;
+    border-radius: 20px;
+    font-size: 16px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.3s var(--bounce);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    position: relative;
+    overflow: hidden;
+}
+
+.btn:active {
+    transform: scale(0.92);
+}
+
+/* 激活按钮 - 阳光黄 */
+.btn-primary {
+    background: var(--sun-yellow);
+    color: var(--deep-blue);
+}
+
+.btn-primary:hover {
+    background: var(--sun-yellow-hover);
+    box-shadow: 0 8px 24px rgba(255, 214, 10, 0.4);
+    transform: translateY(-2px);
+}
+
+/* 提号按钮 - 活力橙 */
+.btn-success {
+    background: var(--energy-orange);
+    color: white;
+    width: 100%;
+    font-size: 18px;
+}
+
+.btn-success:hover {
+    background: #FF5416;
+    box-shadow: 0 8px 24px rgba(255, 107, 53, 0.4);
+    transform: translateY(-2px);
+}
+
+/* 切换按钮 - 深海蓝 */
+.btn-switch {
+    background: #F8FAFC;
+    color: var(--deep-blue);
+    padding: 10px 20px;
+    font-size: 14px;
+    border: 2px solid transparent;
+}
+
+.btn-switch:hover {
+    background: var(--deep-blue);
+    color: white;
+    box-shadow: 0 4px 16px rgba(0, 53, 102, 0.2);
+}
+
+.btn-outline {
+    background: transparent;
+    border: 2px solid #E2E8F0;
+    color: var(--text-light);
+    margin-top: 16px;
+    width: 100%;
+    padding: 14px;
+}
+
+.btn-outline:hover {
+    border-color: var(--alert-red);
+    color: var(--alert-red);
+    background: rgba(239, 71, 111, 0.05);
+}
+
+.btn-block {
+    width: 100%;
+}
+
+/* ==================== 当前账号底部详情 ==================== */
+.current-account-detail {
+    margin: 0 40px 32px;
+    padding: 24px 32px;
+    background: #F0F9FF;
+    border-radius: 24px;
+    border: 2px solid #BAE6FD;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.detail-header h3 {
+    font-size: 14px;
+    color: var(--ocean-blue);
+    margin-bottom: 4px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    font-weight: 700;
+}
+
+/* ==================== 空状态 ==================== */
+.empty-state {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 400px;
+    color: var(--text-light);
+}
+
+.empty-icon {
+    font-size: 64px;
+    margin-bottom: 24px;
+    animation: float 3s ease-in-out infinite;
+}
+
+.empty-text {
+    font-size: 18px;
+    font-weight: 500;
+}
+
+/* ==================== Toast ==================== */
+#toast-container {
+    position: fixed;
+    top: 40px;
+    right: 40px;
+    z-index: 10000;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    pointer-events: none;
+}
+
+.toast {
+    min-width: 360px;
+    background: white;
+    border-radius: 20px;
+    padding: 20px 24px;
+    box-shadow: 0 20px 60px rgba(0, 53, 102, 0.15);
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    pointer-events: auto;
+    animation: slideIn 0.4s var(--bounce);
+    border: 2px solid #F1F5F9;
+}
+
+.toast.success { border-left: 8px solid var(--fresh-green); }
+.toast.error { border-left: 8px solid var(--alert-red); }
+.toast.warning { border-left: 8px solid var(--sun-yellow); }
+
+.toast-title {
+    font-weight: 800;
+    font-size: 16px;
+    color: var(--deep-blue);
+}
+
+.toast-message {
+    font-size: 14px;
+    color: var(--text-sub);
+    margin-top: 4px;
+}
+
+/* ==================== 动画 ==================== */
+@keyframes float {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-10px); }
+}
+
+@keyframes slideIn {
+    from { transform: translateX(100%) scale(0.8); opacity: 0; }
+    to { transform: translateX(0) scale(1); opacity: 1; }
+}
+
+::-webkit-scrollbar { width: 8px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb {
+    background: #E2E8F0;
+    border-radius: 100px;
+}
+::-webkit-scrollbar-thumb:hover { background: #CBD5E1; }

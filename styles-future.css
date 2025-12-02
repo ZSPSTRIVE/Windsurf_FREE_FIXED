@@ -1,0 +1,651 @@
+/**
+ * WindSurf 客户端 - 未来感/Apple风格
+ * 配色: 液金色 + 温暖橙 + 纯净白
+ * 设计: 极简、液态玻璃、微动效
+ */
+
+/* ==================== 基础重置 ==================== */
+:root {
+    /* 核心配色 */
+    --bg-color: #FBFBFD;
+    --glass-bg: rgba(255, 255, 255, 0.65);
+    --glass-border: rgba(255, 255, 255, 0.8);
+    --glass-shadow: 0 8px 32px rgba(31, 38, 135, 0.07);
+    
+    /* 重点色 */
+    --gold-primary: #D4AF37;
+    --gold-glow: rgba(212, 175, 55, 0.3);
+    --orange-primary: #FF9500;
+    --orange-glow: rgba(255, 149, 0, 0.3);
+    --blue-accent: #007AFF;
+    
+    /* 文字颜色 */
+    --text-primary: #1D1D1F;
+    --text-secondary: #86868B;
+    --text-tertiary: #AEAEB2;
+    
+    /* 状态色 */
+    --success: #34C759;
+    --error: #FF3B30;
+    --warning: #FFCC00;
+    
+    /* 圆角与间距 */
+    --radius-sm: 8px;
+    --radius-md: 12px;
+    --radius-lg: 18px;
+    --radius-full: 999px;
+    
+    /* 动效 */
+    --ease-out: cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    --ease-elastic: cubic-bezier(0.68, -0.55, 0.265, 1.55);
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    -webkit-font-smoothing: antialiased;
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", "Helvetica Neue", Helvetica, Arial, sans-serif;
+    background: var(--bg-color);
+    color: var(--text-primary);
+    height: 100vh;
+    overflow: hidden;
+    position: relative;
+}
+
+/* ==================== 动态背景容器 ==================== */
+#dynamic-bg {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 0;
+    overflow: hidden;
+    pointer-events: none;
+}
+
+.bg-orb {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(60px);
+    opacity: 0.5;
+    animation: float 20s infinite ease-in-out;
+}
+
+@keyframes float {
+    0% { transform: translate(0, 0) rotate(0deg); }
+    50% { transform: translate(50px, 50px) rotate(180deg); }
+    100% { transform: translate(0, 0) rotate(360deg); }
+}
+
+/* ==================== 应用布局 ==================== */
+.app-container {
+    display: flex;
+    height: 100vh;
+    position: relative;
+    z-index: 1;
+    background: transparent;
+}
+
+/* ==================== 左侧面板 ==================== */
+.left-panel {
+    width: 380px;
+    background: rgba(255, 255, 255, 0.5);
+    backdrop-filter: blur(25px) saturate(180%);
+    -webkit-backdrop-filter: blur(25px) saturate(180%);
+    border-right: 1px solid rgba(0, 0, 0, 0.05);
+    display: flex;
+    flex-direction: column;
+    padding: 0;
+    box-shadow: 10px 0 40px rgba(0, 0, 0, 0.03);
+}
+
+.panel-header {
+    padding: 40px 32px 24px;
+}
+
+.app-title {
+    font-size: 24px;
+    font-weight: 600;
+    color: var(--text-primary);
+    letter-spacing: -0.5px;
+    margin-bottom: 6px;
+    background: linear-gradient(135deg, var(--text-primary) 0%, #4a4a4a 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.app-subtitle {
+    font-size: 13px;
+    color: var(--text-secondary);
+    font-weight: 400;
+    letter-spacing: 0.2px;
+}
+
+/* ==================== 表单区域 ==================== */
+.activation-section {
+    padding: 0 32px 24px;
+}
+
+.section-title {
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: var(--text-tertiary);
+    margin-bottom: 12px;
+    font-weight: 600;
+}
+
+.activation-form {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.activation-input {
+    width: 100%;
+    padding: 16px;
+    border-radius: var(--radius-md);
+    border: 1px solid rgba(0, 0, 0, 0.08);
+    background: rgba(255, 255, 255, 0.5);
+    font-size: 15px;
+    color: var(--text-primary);
+    transition: all 0.3s var(--ease-out);
+    backdrop-filter: blur(10px);
+}
+
+.activation-input::placeholder {
+    color: var(--text-tertiary);
+}
+
+.activation-input:focus {
+    outline: none;
+    background: rgba(255, 255, 255, 0.8);
+    border-color: var(--gold-primary);
+    box-shadow: 0 0 0 4px var(--gold-glow);
+    transform: scale(1.01);
+}
+
+/* ==================== 信息卡片 ==================== */
+.info-section {
+    padding: 0 32px;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.info-list {
+    background: rgba(255, 255, 255, 0.4);
+    border-radius: var(--radius-lg);
+    padding: 20px;
+    margin-bottom: 24px;
+    border: 1px solid rgba(255, 255, 255, 0.6);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.02);
+}
+
+.info-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 0;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.03);
+}
+
+.info-row:last-child {
+    border-bottom: none;
+}
+
+.info-label {
+    font-size: 13px;
+    color: var(--text-secondary);
+}
+
+.info-value {
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--text-primary);
+    font-family: "SF Mono", "Menlo", monospace;
+}
+
+.info-value.highlight {
+    color: var(--gold-primary);
+    font-weight: 700;
+    font-size: 16px;
+}
+
+/* ==================== 机器码区域 ==================== */
+.machine-code-section {
+    padding: 24px 32px;
+    margin-top: auto;
+}
+
+.machine-code {
+    font-size: 11px;
+    color: var(--text-tertiary);
+    background: rgba(0, 0, 0, 0.03);
+    padding: 10px 14px;
+    border-radius: var(--radius-sm);
+    text-align: center;
+    font-family: "SF Mono", "Menlo", monospace;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+/* ==================== 右侧面板 ==================== */
+.right-panel {
+    flex: 1;
+    background: transparent;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+}
+
+.right-panel .panel-header {
+    padding: 40px 40px 24px;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    background: transparent;
+}
+
+.right-panel h2 {
+    font-size: 22px;
+    font-weight: 600;
+    color: var(--text-primary);
+    letter-spacing: -0.3px;
+}
+
+.account-stats {
+    font-size: 13px;
+    color: var(--text-secondary);
+    background: rgba(255, 255, 255, 0.5);
+    padding: 6px 12px;
+    border-radius: var(--radius-full);
+    backdrop-filter: blur(10px);
+}
+
+/* ==================== 账号列表 ==================== */
+.accounts-container {
+    padding: 0 40px 40px;
+    flex: 1;
+    overflow-y: auto;
+}
+
+.accounts-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 16px;
+}
+
+.account-item {
+    background: rgba(255, 255, 255, 0.6);
+    backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.8);
+    border-radius: var(--radius-lg);
+    padding: 20px;
+    transition: all 0.4s var(--ease-out);
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.02);
+}
+
+.account-item::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.4) 0%, rgba(255, 255, 255, 0) 100%);
+    opacity: 0;
+    transition: opacity 0.4s ease;
+}
+
+.account-item:hover {
+    transform: translateY(-4px) scale(1.01);
+    background: rgba(255, 255, 255, 0.8);
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.06);
+    border-color: white;
+}
+
+.account-item:hover::before {
+    opacity: 1;
+}
+
+.account-item.active {
+    background: rgba(255, 255, 255, 0.9);
+    border-color: var(--gold-primary);
+    box-shadow: 0 8px 24px rgba(212, 175, 55, 0.15);
+}
+
+.account-info {
+    margin-bottom: 16px;
+}
+
+.account-email {
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--text-primary);
+    margin-bottom: 4px;
+}
+
+.account-name {
+    font-size: 13px;
+    color: var(--text-secondary);
+}
+
+.account-actions {
+    display: flex;
+    justify-content: flex-end;
+}
+
+/* ==================== 按钮 ==================== */
+.btn {
+    border: none;
+    font-family: inherit;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    border-radius: var(--radius-md);
+    transition: all 0.3s var(--ease-out);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    position: relative;
+    overflow: hidden;
+}
+
+.btn::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(rgba(255, 255, 255, 0.2), transparent);
+    opacity: 0;
+    transition: opacity 0.3s;
+}
+
+.btn:hover::after {
+    opacity: 1;
+}
+
+.btn:active {
+    transform: scale(0.96);
+}
+
+/* 激活按钮 - 液金色 */
+.btn-primary {
+    background: var(--gold-primary);
+    color: white;
+    padding: 14px 24px;
+    box-shadow: 0 4px 12px rgba(212, 175, 55, 0.3);
+}
+
+.btn-primary:hover {
+    background: #E5BE4A;
+    box-shadow: 0 6px 16px rgba(212, 175, 55, 0.4);
+}
+
+/* 提号按钮 - 温暖橙 */
+.btn-success {
+    background: var(--orange-primary);
+    color: white;
+    padding: 14px 24px;
+    box-shadow: 0 4px 12px rgba(255, 149, 0, 0.3);
+}
+
+.btn-success:hover {
+    background: #FFA82E;
+    box-shadow: 0 6px 16px rgba(255, 149, 0, 0.4);
+}
+
+/* 切换按钮 - 玻璃态 */
+.btn-switch {
+    background: rgba(0, 0, 0, 0.05);
+    color: var(--text-primary);
+    padding: 8px 16px;
+    font-size: 13px;
+}
+
+.btn-switch:hover {
+    background: var(--text-primary);
+    color: white;
+}
+
+.btn-outline {
+    background: transparent;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    color: var(--text-secondary);
+    padding: 10px 20px;
+    margin-top: 16px;
+    width: 100%;
+}
+
+.btn-outline:hover {
+    border-color: var(--error);
+    color: var(--error);
+    background: rgba(255, 59, 48, 0.05);
+}
+
+/* ==================== 当前账号底部详情 ==================== */
+.current-account-detail {
+    margin: 0 40px 40px;
+    padding: 24px;
+    background: white;
+    border-radius: var(--radius-lg);
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.05);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border: 1px solid rgba(0, 0, 0, 0.03);
+}
+
+.detail-header h3 {
+    font-size: 14px;
+    color: var(--text-secondary);
+    margin-bottom: 4px;
+}
+
+.detail-value {
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--text-primary);
+}
+
+/* ==================== 空状态 ==================== */
+.empty-state {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 400px;
+    color: var(--text-tertiary);
+}
+
+.empty-icon {
+    width: 64px;
+    height: 64px;
+    background: rgba(0, 0, 0, 0.03);
+    border-radius: 50%;
+    margin-bottom: 16px;
+    position: relative;
+}
+
+.empty-icon::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 24px;
+    height: 24px;
+    border: 2px solid var(--text-tertiary);
+    border-radius: 4px;
+    transform: translate(-50%, -50%);
+}
+
+/* ==================== 滚动条 ==================== */
+::-webkit-scrollbar {
+    width: 6px;
+}
+
+::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+    background: rgba(0, 0, 0, 0.1);
+    border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: rgba(0, 0, 0, 0.2);
+}
+
+/* ==================== 动画 ==================== */
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+
+/* ==================== Toast 提示 ==================== */
+#toast-container {
+    position: fixed;
+    top: 24px;
+    right: 24px;
+    z-index: 10000;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    pointer-events: none;
+}
+
+.toast {
+    min-width: 320px;
+    max-width: 420px;
+    padding: 16px 20px;
+    background: rgba(255, 255, 255, 0.8);
+    backdrop-filter: blur(20px);
+    border-radius: var(--radius-md);
+    border: 1px solid rgba(255, 255, 255, 0.5);
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.08);
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    animation: toastSlideIn 0.4s var(--ease-elastic);
+    pointer-events: auto;
+    cursor: pointer;
+    transition: all 0.3s var(--ease-out);
+    position: relative;
+    overflow: hidden;
+    color: var(--text-primary);
+}
+
+.toast:hover {
+    transform: translateY(-2px) scale(1.01);
+    box-shadow: 0 15px 50px rgba(0, 0, 0, 0.12);
+    background: rgba(255, 255, 255, 0.95);
+}
+
+.toast.hiding {
+    animation: toastSlideOut 0.3s var(--ease-out) forwards;
+}
+
+@keyframes toastSlideIn {
+    from {
+        transform: translateX(100%) scale(0.9);
+        opacity: 0;
+    }
+    to {
+        transform: translateX(0) scale(1);
+        opacity: 1;
+    }
+}
+
+@keyframes toastSlideOut {
+    from {
+        transform: translateX(0);
+        opacity: 1;
+    }
+    to {
+        transform: translateX(100%);
+        opacity: 0;
+    }
+}
+
+.toast-icon {
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    font-size: 16px;
+    font-weight: 600;
+    flex-shrink: 0;
+}
+
+.toast-content {
+    flex: 1;
+}
+
+.toast-title {
+    font-weight: 600;
+    font-size: 14px;
+    margin-bottom: 2px;
+    color: var(--text-primary);
+}
+
+.toast-message {
+    font-size: 13px;
+    color: var(--text-secondary);
+    line-height: 1.4;
+}
+
+.toast-progress {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    height: 3px;
+    background: currentColor;
+    opacity: 0.3;
+    animation: toastProgress 5s linear;
+}
+
+@keyframes toastProgress {
+    from { width: 100%; }
+    to { width: 0%; }
+}
+
+/* Toast Variants */
+.toast.success { border-left: 4px solid var(--success); }
+.toast.success .toast-icon {
+    background: rgba(52, 199, 89, 0.1);
+    color: var(--success);
+}
+
+.toast.error { border-left: 4px solid var(--error); }
+.toast.error .toast-icon {
+    background: rgba(255, 59, 48, 0.1);
+    color: var(--error);
+}
+
+.toast.warning { border-left: 4px solid var(--warning); }
+.toast.warning .toast-icon {
+    background: rgba(255, 204, 0, 0.1);
+    color: var(--warning);
+}
+
+.toast.info { border-left: 4px solid var(--blue-accent); }
+.toast.info .toast-icon {
+    background: rgba(0, 122, 255, 0.1);
+    color: var(--blue-accent);
+}
+
